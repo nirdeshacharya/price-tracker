@@ -1,9 +1,0 @@
-sql_admin_password = "REPLACE_WITH_STRONG_PASSWORD"
-alpha_vantage_api_key = "REPLACE_WITH_API_KEY"
-
-
-variable "sql_admin_password" {
-  description = "The name of the Function App. If blank, a random name will be generated."
-  type        = string
-  default     = "REPLACE_WITH_STRONG_PASSWORD"
-}

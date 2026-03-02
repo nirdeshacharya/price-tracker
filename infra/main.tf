@@ -100,12 +100,16 @@ resource "azurerm_function_app_flex_consumption" "pricetracker" {
   storage_authentication_type = "StorageAccountConnectionString"
   storage_access_key          = azurerm_storage_account.pricetracker.primary_access_key
   runtime_name                = var.runtime_name
-  runtime_version             = var.runtime_version
+  runtime_version             = var.runtime_version 
   maximum_instance_count      = 50
   instance_memory_in_mb       = 2048
   app_settings                = {
   APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.pricetracker.connection_string
   }
+  identity {
+    type = "SystemAssigned"
+  }
+
   site_config {
   }
 }
@@ -164,14 +168,14 @@ resource "azurerm_key_vault_access_policy" "price_alert" {
 }
 
 # Create Secrets for Function App
-resource "azurerm_key_vault_secret" "price_alert" {
+resource "azurerm_key_vault_secret" "SqlAdminPassword" {
   name          = "SqlAdminPassword"
   value         = var.sql_admin_password
   key_vault_id  = azurerm_key_vault.pricetracker.id
 }
 
 # Create Secrets for Alpha Vantage Api
-resource "azurerm_key_vault_secret" "price_alert" {
+resource "azurerm_key_vault_secret" "AlphaVantageApi" {
   name          = "AlphaVantageApi"
   value         = var.alpha_vantage_api_key
   key_vault_id  = azurerm_key_vault.pricetracker.id

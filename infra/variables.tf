@@ -25,7 +25,7 @@ variable "sa_account_replication_type" {
 variable "sa_name" {
   description = "The name of the storage account. If blank, a random name will be generated."
   type        = string
-  default     = "price-tracker-sa"
+  default     = "pricetrackersa"
 }
 
 variable "db_name" {
@@ -86,7 +86,7 @@ variable "fa_name" {
 variable "sb_name" {
   description = "The name of Service Bus. If blank, a random name will be generated."
   type        = string
-  default     = "price-tracker-sb" 
+  default     = "pricetrackersb" 
 }
 
 variable "kv_name" {
@@ -105,6 +105,6 @@ variable "runtime_name" {
 variable "runtime_version" {
   description = "The version of the language worker runtime."
   type        = string
-  default     = "20" 
+  default     = "8.0" 
 }
 

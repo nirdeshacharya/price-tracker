@@ -10,20 +10,6 @@ serverless development patterns.
 
 
 
-Alpha Vantage API
-      ↓
-Azure Function (.NET 8 isolated, timer trigger)
-      ↓
-Azure SQL Database (price storage)
-      ↓
-Azure Service Bus
-  ├── price-ingested queue (new price recorded)
-  └── price-alert queue (threshold breached)
-      ↓
-Application Insights (monitoring + alerting)
-
-
-
 ## Infrastructure
 
 Provisioned entirely with Terraform:

@@ -13,7 +13,7 @@ public class StockFunction
         _logger = loggerFactory.CreateLogger<StockFunction>();
     }
 
-    [Function("Function1")]
+    [Function("StockFunction")]
     public void Run([TimerTrigger("0 0 8-17 * * 1-5")] TimerInfo myTimer)
     {
         _logger.LogInformation("C# Timer trigger function executed at: {executionTime}", DateTime.Now);

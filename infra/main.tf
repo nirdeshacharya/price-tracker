@@ -126,7 +126,7 @@ resource "azurerm_servicebus_namespace" "pricetracker" {
 
 # Create Queue Price Ingested
 resource "azurerm_servicebus_queue" "price_ingested" {
-  name                                 = "price-ingested"
+  name                                 = "sse-price-ingested"
   namespace_id                         = azurerm_servicebus_namespace.pricetracker.id
   max_delivery_count                   = 5
   dead_lettering_on_message_expiration = true
@@ -135,7 +135,16 @@ resource "azurerm_servicebus_queue" "price_ingested" {
 
 # Create Queue Price Alert
 resource "azurerm_servicebus_queue" "price_alert" {
-  name                                 = "price-alert"
+  name                                 = "sse-price-alert"
+  namespace_id                         = azurerm_servicebus_namespace.pricetracker.id
+  max_delivery_count                   = 3
+  dead_lettering_on_message_expiration = true
+  lock_duration                        = "PT1M"
+}
+
+# Create Queue Price Alert
+resource "azurerm_servicebus_queue" "dividend_reminder" {
+  name                                 = "sse-dividend-reminder"
   namespace_id                         = azurerm_servicebus_namespace.pricetracker.id
   max_delivery_count                   = 3
   dead_lettering_on_message_expiration = true

@@ -2,6 +2,8 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using SSEStockPrice.Infrastructure.Data;
 
 var builder = FunctionsApplication.CreateBuilder(args);
 
@@ -11,4 +13,15 @@ builder.Services
     .AddApplicationInsightsTelemetryWorkerService()
     .ConfigureFunctionsApplicationInsights();
 
-builder.Build().Run();
+builder.Services.AddDbContext<AppDbContext>(options =>
+     options.UseSqlServer(Environment.GetEnvironmentVariable("SqlConnectionString")));
+
+
+var host = builder.Build();
+using(var scope = host.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await db.Database.MigrateAsync();
+}
+
+await host.RunAsync();

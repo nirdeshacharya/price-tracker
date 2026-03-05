@@ -19,7 +19,12 @@ builder.Services
     .ConfigureFunctionsApplicationInsights();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-     options.UseSqlServer(Environment.GetEnvironmentVariable("SqlConnectionString")));
+    options.UseSqlServer(
+        Environment.GetEnvironmentVariable("SqlConnectionString"),
+        sqlOptions => sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 3,
+            maxRetryDelay: TimeSpan.FromSeconds(5),
+            errorNumbersToAdd: null)));
 
 
 //Registering Service

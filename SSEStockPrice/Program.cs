@@ -4,6 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using SSEStockPrice.Infrastructure.Data;
+using SSEStockPrice.Interfaces;
+using SSEStockPrice.Infrastructure.ExternalApis;
+using SSEStockPrice.Infrastructure.Repositories;
+using Azure.Messaging.ServiceBus;
+using SSEStockPrice.Infrastructure.Messaging;
 
 var builder = FunctionsApplication.CreateBuilder(args);
 
@@ -15,6 +20,14 @@ builder.Services
 
 builder.Services.AddDbContext<AppDbContext>(options =>
      options.UseSqlServer(Environment.GetEnvironmentVariable("SqlConnectionString")));
+
+
+//Registering Service
+builder.Services.AddHttpClient<IAlphaVantageClient, AlphaVantageClient>();
+builder.Services.AddScoped<IPriceRepository, PriceRepository>();
+builder.Services.AddSingleton<ServiceBusClient>(new ServiceBusClient(Environment.GetEnvironmentVariable("ServiceBusConnection")));
+builder.Services.AddSingleton<IServiceBusPublisher, ServiceBusPublisher>();
+
 
 
 var host = builder.Build();

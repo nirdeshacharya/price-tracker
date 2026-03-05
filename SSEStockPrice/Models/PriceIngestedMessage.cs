@@ -11,7 +11,7 @@ namespace SSEStockPrice.Models
         public Guid MessageId { get; set; } = Guid.NewGuid();
         public string Symbol { get; set; }
         public decimal StockPrice { get; set; }
-        public DateTimeOffset DateTime { get; set; }
+        public DateTimeOffset EventDateTime { get; set; }
 
     }
 }

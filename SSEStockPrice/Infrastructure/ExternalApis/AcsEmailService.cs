@@ -25,7 +25,7 @@ You are recieving this alert based on your setup for {priceAlertMessage.Symbol}.
 The current price is {priceAlertMessage.CurrentPrice:C}, which is {directionText} your target of {priceAlertMessage.TargetPrice:C}.
 Thank you for using SSE Stock Price Alerts! If you have any question please email me at nirdesh.acharya@sse.com
 Nirdesh";
-            var subject = $"Price Alert Triggered: {priceAlertMessage.Symbol}";
+            var subject = $"Alert: Stock Prices have gone {directionText} {priceAlertMessage.TargetPrice:C}";
             var emailContent = new EmailContent(subject)
             {
                 PlainText = body

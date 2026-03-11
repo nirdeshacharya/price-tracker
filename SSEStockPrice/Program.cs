@@ -30,6 +30,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 //Registering Service
 builder.Services.AddHttpClient<IAlphaVantageClient, AlphaVantageClient>();
 builder.Services.AddScoped<IPriceRepository, PriceRepository>();
+builder.Services.AddScoped<IAlertRepository, AlertRepository>();
 builder.Services.AddSingleton<ServiceBusClient>(new ServiceBusClient(Environment.GetEnvironmentVariable("ServiceBusConnection")));
 builder.Services.AddSingleton<IServiceBusPublisher, ServiceBusPublisher>();
 

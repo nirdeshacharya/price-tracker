@@ -12,6 +12,7 @@ namespace SSEStockPrice.Infrastructure.Data
         }
 
         public DbSet<SSEPrice> SSEPrices { get; set; }
+        public DbSet<ColleagueAlert> ColleagueAlerts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +27,19 @@ namespace SSEStockPrice.Infrastructure.Data
                 entity.Property(x =>x.LowPrice).HasColumnType("decimal(10,4)");
                 entity.Property(x =>x.ChangePercent).HasColumnType("decimal(6,4)");
 
+            });
+
+            modelBuilder.Entity<ColleagueAlert>(entity =>
+            {
+                entity.ToTable("ColleagueAlert");
+                entity.HasKey(x => x.Id);
+                entity.Property(x => x.ColleagueName).HasMaxLength(100).IsRequired();
+                entity.Property(x => x.Email).HasMaxLength(100).IsRequired();
+                entity.Property(x => x.Symbol).HasMaxLength(20).IsRequired();
+                entity.Property(x => x.TargetPrice).HasColumnType("decimal(10,4)").IsRequired();
+                entity.Property(x => x.Direction).IsRequired();
+                entity.Property(x => x.IsActive).IsRequired().HasDefaultValue(true);
+                entity.Property(x => x.CreatedAt).IsRequired();
             });
         }
     }

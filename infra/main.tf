@@ -190,3 +190,36 @@ resource "azurerm_key_vault_secret" "AlphaVantageApi" {
   key_vault_id  = azurerm_key_vault.pricetracker.id
 }
 
+# Create Communication Service for email service
+resource "azurerm_communication_service" "pricetracker" {
+  name                = coalesce(var.acs_name, random_string.name.result)
+  resource_group_name = azurerm_resource_group.pricetracker.name
+  data_location       = "UK"
+}
+
+# Create Email Service
+resource "azurerm_email_communication_service" "pricetracker" {
+  name                = "price-tracker-email-service"
+  resource_group_name = azurerm_resource_group.pricetracker.name
+  data_location       = "UK"
+}
+
+# Create a Email Domain Resource
+resource "azurerm_email_communication_service_domain" "pricetracker" {
+  name                = "AzureManagedDomain"
+  email_service_id    = azurerm_email_communication_service.pricetracker.id
+  domain_management   = "AzureManaged"
+}
+
+# Create a Email Domain Association
+resource "azurerm_communication_service_email_domain_association" "pricetracker" {
+  communication_service_id = azurerm_communication_service.pricetracker.id
+  email_service_domain_id  = azurerm_email_communication_service_domain.pricetracker.id
+}
+
+# Create Secrets for ACS Connection String
+resource "azurerm_key_vault_secret" "acs_connection_string" {
+  name          = "ACSConnectionString"
+  value         = azurerm_communication_service.pricetracker.primary_connection_string
+  key_vault_id  = azurerm_key_vault.pricetracker.id
+}

@@ -95,6 +95,12 @@ variable "kv_name" {
   default     = "price-tracker-kv" 
 }
 
+variable "acs_name" {
+  description = "The name of the Azure Communication Service. If blank, a random name will be generated."
+  type        = string
+  default     = "price-tracker-acs"
+}
+
 
 variable "runtime_name" {
   description = "The name of the language worker runtime."

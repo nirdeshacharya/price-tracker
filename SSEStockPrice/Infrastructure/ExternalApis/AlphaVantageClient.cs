@@ -27,6 +27,8 @@ namespace SSEStockPrice.Infrastructure.ExternalApis
 
             var quote = response.GlobalQuote;
 
+            if (response?.GlobalQuote == null) throw new InvalidOperationException($"Alpha Vantage responded with empty for {symbol}");
+
             return new SSEPrice
             {
                 Symbol = quote.Symbol,

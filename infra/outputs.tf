@@ -34,3 +34,4 @@ output "servicebus_namespace" {
 output "app_insights_name" {
   value = "azurerm_application_insights.pricetracker.name"
 }
+

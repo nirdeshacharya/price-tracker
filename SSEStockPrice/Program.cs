@@ -9,6 +9,7 @@ using SSEStockPrice.Infrastructure.ExternalApis;
 using SSEStockPrice.Infrastructure.Repositories;
 using Azure.Messaging.ServiceBus;
 using SSEStockPrice.Infrastructure.Messaging;
+using Azure.Communication.Email;
 
 var builder = FunctionsApplication.CreateBuilder(args);
 
@@ -29,9 +30,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 //Registering Service
 builder.Services.AddHttpClient<IAlphaVantageClient, AlphaVantageClient>();
+builder.Services.AddScoped<IEmailService, AcsEmailService>();
 builder.Services.AddScoped<IPriceRepository, PriceRepository>();
 builder.Services.AddScoped<IAlertRepository, AlertRepository>();
+builder.Services.AddScoped<ISentAlertRepository, SentAlertRepository>();
 builder.Services.AddSingleton<ServiceBusClient>(new ServiceBusClient(Environment.GetEnvironmentVariable("ServiceBusConnection")));
+builder.Services.AddSingleton<EmailClient>(new EmailClient(Environment.GetEnvironmentVariable("AcsConnectionString")));
 builder.Services.AddSingleton<IServiceBusPublisher, ServiceBusPublisher>();
 
 
